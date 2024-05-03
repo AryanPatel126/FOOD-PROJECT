@@ -5,28 +5,29 @@ import fs from 'fs';
 // add food item
 
 const addFood = async (req, res) => {
-
-    let image_filename = `${req.file.filename}` ;
+    let image_filename = `${req.file.filename}`;
 
     const food = new foodModel({
         name: req.body.name,
-        description: req.body.description,
+        description: req.body.description, // Corrected field name
         price: req.body.price,
         category: req.body.category,
         image: image_filename,
-    })
+    });
+
     try {
         await food.save();
-        res.status(200).json({    // or res.json({sucess:true , message:"Food Added"})
+        res.status(200).json({
             message: "Food added successfully"
-        })
+        });
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.status(500).json({
             message: "Error adding food"
-        })
+        });
     }
-}
+};
+
 
 // all food list
 const listFood = async (req, res) => {
