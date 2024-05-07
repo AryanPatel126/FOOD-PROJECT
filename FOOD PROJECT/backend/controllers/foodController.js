@@ -17,12 +17,14 @@ const addFood = async (req, res) => {
 
     try {
         await food.save();
-        res.status(200).json({
+        res.json({
+            success: true,
             message: "Food added successfully"
-        });
+          });
     } catch (error) {
         console.log(error);
-        res.status(500).json({
+        res.json({
+            success: false,
             message: "Error adding food"
         });
     }
@@ -33,12 +35,14 @@ const addFood = async (req, res) => {
 const listFood = async (req, res) => {
     try {
         const foods = await foodModel.find();
-        res.status(200).json({
+        res.json({
+            success: true,
             data: foods
         })
     } catch (error) {
         console.log(error)
-        res.status(500).json({
+        res.json({
+            success: false,
             message: "Error fetching foods"
         })
     }
@@ -51,11 +55,13 @@ const removeFood = async (req, res) => {
         fs.unlink(`uploads/${food.image}`, ()=>{})
 
         await foodModel.findByIdAndDelete(req.body.id)
-        res.status(200).json({
+        res.json({
+            success: true,
             message: "Food removed successfully"
         })
     } catch (error) {
-        res.status(500).json({
+        res.json({
+            success: false,
             message: "Error removing food"
         })
     }
