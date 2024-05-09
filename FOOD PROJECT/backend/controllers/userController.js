@@ -31,7 +31,6 @@ const loginUser = async (req, res) => {
             success : true,
             token
         })
-
     } catch (error) {
         console.log(error)
         res.json({
