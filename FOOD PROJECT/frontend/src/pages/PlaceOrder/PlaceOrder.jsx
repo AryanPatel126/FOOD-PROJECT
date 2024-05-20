@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import './PlaceOrder.css'
 import { StoreContext } from '../../context/StoreContext'
+import axios from 'axios'
 
 
 const PlaceOrder = () => {
@@ -33,7 +34,20 @@ const PlaceOrder = () => {
         orderItems.push(itemInfo)
       }
     })
-    console.log(orderItems)
+    let orderData = {
+      address:data,
+      items:orderItems,
+      amount:getTotalCartAmount()+2,
+    }
+    let response = await axios.post(url+"/api/order/place",orderData,{headers:{token}})
+    if(response.data.success) {
+      const {session_url} = response.data;
+      // alert("Order placed successfully");
+      window.location.replace(session_url);
+    }
+    else {
+      alert("Error");
+    }
   }
 
 
@@ -44,7 +58,7 @@ const PlaceOrder = () => {
         <div className="multi-fields">
           <input name='firstName' onChange={onchangeHandler} value={data.firtName} type="text" placeholder='First name'  required />
           <input name='lastName' onChange={onchangeHandler} value={data.lastName} type="text" placeholder='Last name'  required />
-        </div> required 
+        </div>
         <input name='email' onChange={onchangeHandler} value={data.email} type="text" placeholder='Email address' required />
         <input name='street' onChange={onchangeHandler} value={data.street} type="text" placeholder='Street' required />
         <div className="multi-fields">
